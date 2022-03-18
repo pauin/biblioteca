@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Libros</title>
+</head>
+
+<body>
+    <div class="container border mt-4 p-4 bg-light">
+        <h3 class="mt-4 p-4">Add an Book</h3>
+        <div class="row">
+            <div class="col-6 border secondary">
+                <form id="form">
+                    <div class="mb-3 mt-3">
+                        <label for="titulo" class="form-label">Title</label>
+                        <input type="text" class="form-control" name="titulo" id="titulo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="decripcion">Notes</label>
+                        <textarea class="form-control" rows="2" name="descripcion" id="descripcion"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+            <div class="col-6">
+                <table class="table">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-danger" id="libros">
+                        <tr>
+
+
+                        </tr>
+                        <tr>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <script>
+        async function cargar() {
+            // primero pido los datos de los destinos al servidor
+            const datos = await axios.get('/api/libros')
+            console.log("Llegamos")
+                // depués borro todo lo que esté en la tabla (su HTML interno)
+            $('#libros').html('')
+                //finalmente itero sobre los destinos recibidos, y los voy escribiendo en la tabla
+            for (let user of datos.data) {
+                console.log(datos.data)
+                $('#libros').append(`
+    <tr>
+        <td>${user.id}</td>
+        <td>${user.title}</td>
+        <td>${user.descripcion}</td>
+    <tr>
+        `)
+            }
+
+        }
+        window.onload = cargar;
+        $('#form').on('submit', async function(ev) {
+            // primero evitamos que se envíe el formulario
+            ev.preventDefault()
+
+            // Ahora enviamos la solicitud POST, pero con AJAX
+            await axios.post('/api/libros', {
+                    //id: $('#auto').val(),
+                    title: $('#titulo').val(),
+                    descripcion: $('#descripcion').val()
+                })
+                // cuando llegue la solicitud, vamos a redibujar todo el contenido de la tabla
+            cargar()
+            $('#titulo').val('')
+            $('#descripcion').val('')
+        })
+
+        function alerta() {
+            toastr.success('Libro agregado ..!')
+        }
+    </script>
+</body>
+
+</html>

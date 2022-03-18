@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Libros</title>
+</head>
+
+<body>
+    <div class="container border mt-4 p-4 bg-light">
+        <h3 class="mt-4 p-4">Add an Book</h3>
+        <div class="row">
+            <div class="col-6 border secondary">
+                <form id="form">
+                    <div class="mb-3 mt-3">
+                        <label for="titulo" class="form-label">Title</label>
+                        <input type="text" class="form-control" name="titulo" id="titulo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="decripcion">Notes</label>
+                        <textarea class="form-control" rows="2" name="descripcion" id="descripcion"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+            <div class="col-6">
+                <table class="table">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-danger" id="libros">
+                        {%for libro in libros%}
+                        <tr>
+                            <th scope="row">{{libro.id}}</th>
+                            <td>{{libro.title}}</td>
+                            <td>{{libro.descripcion}}</td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</body>
+</html>
