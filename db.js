@@ -21,12 +21,14 @@ async function add_books(title, descripcion) {
     client.release();
     return rows[0];
 }
+
 async function mostrar() {
     const client = await pool.connect();
     const { rows } = await client.query(`select * from libros`);
     client.release();
     return rows;
 }
+
 async function add_autores(firstname, lastname, notes) {
     const client = await pool.connect();
     const { rows } = await client.query({
@@ -43,5 +45,20 @@ async function mostrar_autores() {
     return rows;
 }
 
+//nuevas funciones
+async function newlibros() {
+    const client = await pool.connect()
+    const { rows } = await client.query('select * from libros')
+    client.release()
+    return rows
+  }
 
-module.exports = { add_books, mostrar, add_autores, mostrar_autores }
+async function newautores() {
+    const client = await pool.connect()
+    const { rows } = await client.query('select * from autores')
+    client.release()
+    return rows
+}
+
+
+module.exports = { newautores, newlibros, add_books, mostrar, add_autores, mostrar_autores }

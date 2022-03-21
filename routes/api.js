@@ -1,7 +1,14 @@
 const express = require("express");
+const app = express()
 const router = express.Router();
+const {newlibros, add_books, mostrar, add_autores, mostrar_autores} = require('../db.js')
 
-const { add_books, mostrar, add_autores, mostrar_autores} = require('../db.js')
+//nuevas rutas
+
+app.get("/", async (req,res)=>{
+	const libros = await newlibros()
+  res.render('index.html', {libros});
+ });
 
 
 // Nuestras rutas
@@ -17,7 +24,6 @@ router.post("/libros", async(req, res) => {
 
 router.get("/libros", async(req, res) => {
     const user = await mostrar()
-    console.log(user)
     res.json(user);
 
 });
@@ -37,6 +43,8 @@ router.get("/autores", async(req, res) => {
     console.log(user)
     res.json(user);
 });
+
+app.use(express.json())
 
 
 module.exports = router;
